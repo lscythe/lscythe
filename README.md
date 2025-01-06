@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @lscythe
 - 👀 I’m interested in Mobile Development
-- 🌱 I’m currently learning KMM and Backend Development with Go
+- 🌱 I’m currently learning KMM
 
 <!---
 lscythe/lscythe is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
