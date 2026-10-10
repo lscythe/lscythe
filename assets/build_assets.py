@@ -1,40 +1,18 @@
 """Builds the profile banner and project sigils in the Circuit 炼器 look of lscythe.dev.
 
 Writes assets/banner-dark.svg, assets/banner-light.svg and one
-assets/sigils/<repo>.svg per entry in PROJECTS. GitHub shows
-README images through <img>, which can't fetch web fonts, so Tektur and
-Share Tech Mono are embedded as base64 (latin subsets, ~30 KB in total).
+assets/sigils/<repo>.svg per entry in PROJECTS. The sigil is a
+port of the website's src/lib/sigil.ts, so it comes out the same as on the
+site; the shared tokens, fonts and helpers live in circuit.py.
 
-    python3 assets/build_assets.py [path/to/website]
-
-The website repo (default ~/Documents/personal/research/website) must have
-its node_modules installed; the fonts come from @fontsource there. The
-sigil and barcode are ports of src/lib/sigil.ts and src/lib/hud.ts, so
-they come out the same as on the site.
+    python3 assets/build_assets.py
 """
 
-import base64
 import math
-import sys
-from pathlib import Path
 
-HERE = Path(__file__).parent
-SITE = Path(sys.argv[1] if len(sys.argv) > 1 else "~/Documents/personal/research/website").expanduser()
-FONTS = SITE / "node_modules/@fontsource"
+from circuit import HERE, THEMES, barcode, font_faces, fnv, grid
 
 W, H = 1200, 460
-
-# Tokens from src/lib/styles/global.css: lime at night, violet by day.
-THEMES = {
-    "dark": dict(
-        bg="#050505", grid="rgb(255 255 255 / 0.04)", trace="#2a2a2a", line_strong="#3a3a3a",
-        text="#e9e9e9", text2="#b3b3b3", muted="#7a7a7a", signal="#d4f53c", violet="#7c3dff",
-    ),
-    "light": dict(
-        bg="#ecece8", grid="rgb(10 10 10 / 0.06)", trace="#c9c9c2", line_strong="#0a0a0a",
-        text="#0a0a0a", text2="#3b3b38", muted="#6c6c66", signal="#5512e8", violet="#5512e8",
-    ),
-}
 
 # Hairline traces, bending at 45°. Accents are drawn in violet.
 TRACES = [
@@ -50,40 +28,6 @@ PADS = [(556, 80), (900, 80), (820, 432), (1124, 300)]
 # Repos that get a sigil in the README, drawn from their names like a
 # project card's on the site.
 PROJECTS = ["navigo", "xuefu", "gradlens", "domain-probe"]
-
-U32 = 0xFFFFFFFF
-
-
-# --- ports of src/lib/hud.ts -------------------------------------------------
-
-def fnv(s: str) -> int:
-    h = 2166136261
-    for c in s:
-        h = ((h ^ ord(c)) * 16777619) & U32
-    return h
-
-
-def imul(a: int, b: int) -> int:
-    return (a * b) & U32
-
-
-def mulberry(seed: int):
-    state = [seed & U32]
-
-    def r() -> float:
-        state[0] = (state[0] + 0x6D2B79F5) & U32
-        s = state[0]
-        t = imul(s ^ (s >> 15), 1 | s)
-        t = ((t + imul(t ^ (t >> 7), 61 | t)) & U32) ^ t
-        return ((t ^ (t >> 14)) & U32) / 4294967296
-
-    return r
-
-
-def barcode(s: str, bars: int = 28) -> list[int]:
-    r = mulberry(fnv(s) ^ 0x5BD1E9)
-    return [1 + math.floor(r() * 3) for _ in range(bars)]
-
 
 # --- port of sigilCurve() in src/lib/sigil.ts --------------------------------
 
@@ -150,11 +94,6 @@ def sigil(name: str, cx: float, cy: float, size: float, yaw=0.0, pitch=0.45, ban
     return faint, lit, mask
 
 
-def font(name: str, file: str) -> str:
-    data = base64.b64encode((FONTS / name / "files" / file).read_bytes()).decode()
-    return f"url(data:font/woff2;base64,{data}) format('woff2')"
-
-
 def build(theme: str) -> str:
     t = THEMES[theme]
 
@@ -176,9 +115,7 @@ def build(theme: str) -> str:
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="title">
 <title id="title">Rendra Prasetia (lscythe), mobile systems engineer</title>
 <style>
-@font-face {{ font-family: Tektur; font-weight: 800; src: {font("tektur", "tektur-latin-800-normal.woff2")}; }}
-@font-face {{ font-family: Tektur; font-weight: 500; src: {font("tektur", "tektur-latin-500-normal.woff2")}; }}
-@font-face {{ font-family: "Share Tech Mono"; src: {font("share-tech-mono", "share-tech-mono-latin-400-normal.woff2")}; }}
+{font_faces()}
 .mono {{ font-family: "Share Tech Mono", ui-monospace, Menlo, monospace; font-size: 18px; letter-spacing: 0.1em; fill: {t["muted"]}; }}
 .signal {{ fill: {t["signal"]}; }}
 .display {{ font-family: Tektur, "Space Grotesk", sans-serif; font-size: 108px; letter-spacing: -0.01em; }}
@@ -202,14 +139,10 @@ def build(theme: str) -> str:
 @keyframes draw {{ from {{ stroke-dashoffset: 1; }} }}
 @keyframes blink {{ 50% {{ opacity: .2; }} }}
 </style>
+{grid(t, W, H)}
 <defs>
-  <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
-    <path d="M24 0H0V24" fill="none" stroke="{t["grid"]}" stroke-width="1"/>
-  </pattern>
   <mask id="pen" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{H}">{mask}</mask>
 </defs>
-<rect width="{W}" height="{H}" fill="{t["bg"]}"/>
-<rect width="{W}" height="{H}" fill="url(#grid)"/>
 <g class="traces">{traces}{accents}</g>
 {pads}
 <path class="frame" d="M76 84 H1092 L1124 116 V400 H76 Z"/>
@@ -264,11 +197,12 @@ def build_sigil(name: str, size: int = 120) -> str:
 """
 
 
-for name in THEMES:
-    (HERE / f"banner-{name}.svg").write_text(build(name))
-    print(f"wrote assets/banner-{name}.svg")
+if __name__ == "__main__":
+    for name in THEMES:
+        (HERE / f"banner-{name}.svg").write_text(build(name))
+        print(f"wrote assets/banner-{name}.svg")
 
-(HERE / "sigils").mkdir(exist_ok=True)
-for name in PROJECTS:
-    (HERE / "sigils" / f"{name}.svg").write_text(build_sigil(name))
-    print(f"wrote assets/sigils/{name}.svg")
+    (HERE / "sigils").mkdir(exist_ok=True)
+    for name in PROJECTS:
+        (HERE / "sigils" / f"{name}.svg").write_text(build_sigil(name))
+        print(f"wrote assets/sigils/{name}.svg")

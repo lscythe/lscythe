@@ -1,0 +1,41 @@
+# Daily refresh of the profile README: the stats card from GitHub's API,
+# then the "Latest entries" list from lscythe.dev's feed.
+name: Profile refresh
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # daily, 07:00 in Jakarta
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build stats card
+        env:
+          # A STATS_TOKEN secret (a PAT with read:user) is used when set; the
+          # workflow's own token covers public data.
+          GITHUB_TOKEN: ${{ secrets.STATS_TOKEN || secrets.GITHUB_TOKEN }}
+        run: python3 assets/build_stats.py
+
+      - name: Commit stats card
+        run: |
+          git add assets/stats-dark.svg assets/stats-light.svg
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update stats card"
+          git push
+
+      - uses: gautamkrishnar/blog-post-workflow@v1
+        with:
+          feed_list: "https://lscythe.dev/rss.xml"
+          max_post_count: 5
+          date_format: "UTC:yyyy.mm.dd"
+          template: "- `$date` · [$title]($url)$newline"
+          commit_message: "Update latest writing from lscythe.dev"

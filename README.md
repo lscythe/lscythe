@@ -77,4 +77,10 @@ The full record is at [lscythe.dev/experience](https://lscythe.dev/experience).
 
 <sub>Full archive at <a href="https://lscythe.dev/blog">lscythe.dev/blog</a> · <a href="https://lscythe.dev/rss.xml">RSS</a></sub>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/stats-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/stats-light.svg">
+  <img alt="GitHub activity for lscythe over the last 12 months: contribution calendar, counts and languages by code size." src="assets/stats-dark.svg">
+</picture>
+
 <sub>`炼器 liàn qì` &nbsp;·&nbsp; Android since 2019 &nbsp;·&nbsp; Shipping from Jakarta</sub>
