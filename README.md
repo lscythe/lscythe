@@ -1,10 +1,8 @@
-<a href="https://lscythe.dev">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg">
-    <img alt="Rendra Prasetia (lscythe), mobile systems engineer. I build mobile apps for banks, insurers and telcos, mostly in Kotlin." src="assets/banner-dark.svg">
-  </picture>
-</a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg">
+  <img alt="Rendra Prasetia (lscythe), mobile systems engineer. I build mobile apps for banks, insurers and telcos, mostly in Kotlin." src="assets/banner-dark.svg">
+</picture>
 
 <p>
   <a href="https://lscythe.dev"><img alt="lscythe.dev" src="https://img.shields.io/badge/lscythe.dev-d4f53c?style=flat-square&labelColor=050505&logo=cloudflare&logoColor=d4f53c"></a>
@@ -14,56 +12,69 @@
   <a href="mailto:rendrati15c@gmail.com"><img alt="Email" src="https://img.shields.io/badge/email-7c3dff?style=flat-square&labelColor=050505&logo=gmail&logoColor=white"></a>
 </p>
 
-### `USR.00` · Dossier
-
-I'm Rendra, a **software engineer** who builds things for mobile. I build apps for banks, insurers
-and telcos, mostly in Kotlin, and write down what I learn on [lscythe.dev](https://lscythe.dev):
-no ads, no AI-written posts, no paywall.
-
-| | |
-| :-- | :-- |
-| `CLASS` | Software engineer |
-| `FOCUS` | Mobile · Android |
-| `LANGS` | Kotlin · Java · Dart |
-| `LEARNING` | Golang |
-| `FIRST CODE` | 2013 · HTML in Notepad |
-| `BASE` | Jakarta · -6.21 / 106.85 |
+I'm Rendra, a software engineer building for mobile since 2019. Below is what I build in the open;
+what I learn along the way goes on [lscythe.dev](https://lscythe.dev).
 
 ### `NOW` · Building
 
-**Navigo // transit**: a transit app. Backend first, then the mobile app.
+<table>
+  <tr>
+    <td width="108"><a href="https://github.com/lscythe/navigo"><img src="assets/sigils/navigo.svg" width="96" alt="Sigil for navigo"></a></td>
+    <td>
+      <a href="https://github.com/lscythe/navigo"><b>Navigo // transit</b></a> &nbsp;<code>Kotlin · Compose Multiplatform · MapLibre</code><br>
+      A public transport app for Android, desktop and iOS from one shared codebase.
+      Onboarding, the transit map and the adaptive shell are in; English and Indonesian.
+    </td>
+  </tr>
+</table>
 
-- [ ] Backend ← in progress
-- [ ] Mobile
+### `BLD.01` · Open builds
 
-### `BLD.03` · Field deployments
+<table>
+  <tr>
+    <td width="108"><a href="https://github.com/lscythe/xuefu"><img src="assets/sigils/xuefu.svg" width="96" alt="Sigil for xuefu"></a></td>
+    <td>
+      <a href="https://github.com/lscythe/xuefu"><b>血符 XueFu</b></a> &nbsp;<code>TypeScript · Bun</code><br>
+      A terminal-native developer cockpit: Jira, git, pull requests, CI, Android tooling and
+      timesheets around a single work context.
+    </td>
+  </tr>
+  <tr>
+    <td width="108"><a href="https://github.com/lscythe/gradlens"><img src="assets/sigils/gradlens.svg" width="96" alt="Sigil for gradlens"></a></td>
+    <td>
+      <a href="https://github.com/lscythe/gradlens"><b>gradlens</b></a> &nbsp;<code>Rust</code><br>
+      Reviews Android version-catalog dependencies: transitive trees, release notes for the
+      versions Gradle picks, and catalog changes against a baseline branch.
+    </td>
+  </tr>
+  <tr>
+    <td width="108"><a href="https://github.com/lscythe/domain-probe"><img src="assets/sigils/domain-probe.svg" width="96" alt="Sigil for domain-probe"></a></td>
+    <td>
+      <a href="https://github.com/lscythe/domain-probe"><b>domain-probe</b></a> &nbsp;<code>Go</code><br>
+      Checks domain availability over RDAP with a WHOIS fallback, with pricing and expiring or
+      dropping domains, in an interactive terminal browser.
+    </td>
+  </tr>
+</table>
 
-| | Project | Built at | Stack |
-| :-: | :-- | :-- | :-- |
-| 🟢 | [Now by BCA Life](https://play.google.com/store/apps/details?id=com.bcalife.now) | SALT | Kotlin · Jetpack Compose · Ktor · Koin · Room |
-| 🟢 | [Livin' by Mandiri](https://play.google.com/store/apps/details?id=id.bmri.livin) | Bumi Amartha Teknologi Mandiri | Kotlin · Hilt · Room · Coroutines · NFC |
-| 🟣 | Qosmo | SALT, for Telkom Indonesia | Flutter · Melos · Cubit · Dio |
-| 🟢 | [lscythe.dev](https://github.com/lscythe/website) | Side project | SvelteKit · TypeScript · Cloudflare Workers |
+### `OPS.02` · Shipped at work
 
-<sub>🟢 live &nbsp;·&nbsp; 🟣 internal &nbsp;·&nbsp; full index at <a href="https://lscythe.dev/projects">lscythe.dev/projects</a></sub>
+Android and Flutter apps for banks, insurers and telcos, most of them closed source:
+[Now by BCA Life](https://play.google.com/store/apps/details?id=com.bcalife.now) (Kotlin, Compose),
+[Livin' by Mandiri](https://play.google.com/store/apps/details?id=id.bmri.livin) (Kotlin, NFC Tap to Pay)
+and Qosmo, Telkom Indonesia's network monitoring app (Flutter).
+The full record is at [lscythe.dev/experience](https://lscythe.dev/experience).
 
-### `SEQ.02` · Series runs
+### `LOG.03` · Latest entries
 
-- **[Rebooting Android Basics](https://lscythe.dev/blog/rebooting-android-basics/why-relearn-fundamentals)**
-  `15 parts`: going back to the roots, and why the fundamentals still matter after years of
-  building apps.
-- **[Migrating Legacy Code](https://lscythe.dev/blog/migrating-legacy-code/the-context)**
-  `4 parts`: the context, the catalyst, the chaos and the cure.
+<!-- BLOG-POST-LIST:START -->
+- `2026.03.09` · [The Cure](https://lscythe.dev/blog/migrating-legacy-code/the-cure)
+- `2026.03.07` · [Process Death – The Invisible Crash](https://lscythe.dev/blog/rebooting-android-basics/process-death)
+- `2026.03.06` · [Threading 101 – Mastering Dispatchers and Coroutines](https://lscythe.dev/blog/rebooting-android-basics/threading-101)
+- `2026.03.05` · [The Chaos](https://lscythe.dev/blog/migrating-legacy-code/the-chaos)
+- `2026.03.05` · [Memory Leak Hunting – The Modern Culprits](https://lscythe.dev/blog/rebooting-android-basics/memory-leak-hunting)
+<!-- BLOG-POST-LIST:END -->
 
-### `STK.04` · Stack
-
-<p>
-  <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-050505?style=flat-square&logo=kotlin&logoColor=d4f53c">
-  <img alt="Jetpack Compose" src="https://img.shields.io/badge/jetpack_compose-050505?style=flat-square&logo=jetpackcompose&logoColor=d4f53c">
-  <img alt="Android" src="https://img.shields.io/badge/android-050505?style=flat-square&logo=android&logoColor=d4f53c">
-  <img alt="Flutter" src="https://img.shields.io/badge/flutter-050505?style=flat-square&logo=flutter&logoColor=d4f53c">
-  <img alt="Java" src="https://img.shields.io/badge/java-050505?style=flat-square&logo=openjdk&logoColor=d4f53c">
-  <img alt="Go" src="https://img.shields.io/badge/golang-050505?style=flat-square&logo=go&logoColor=7c3dff">
-</p>
+<sub>Full archive at <a href="https://lscythe.dev/blog">lscythe.dev/blog</a> · <a href="https://lscythe.dev/rss.xml">RSS</a></sub>
 
 <sub>`炼器 liàn qì` &nbsp;·&nbsp; Android since 2019 &nbsp;·&nbsp; Shipping from Jakarta</sub>

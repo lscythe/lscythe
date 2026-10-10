@@ -1,10 +1,11 @@
-"""Builds the profile banner in the Circuit 炼器 look of lscythe.dev.
+"""Builds the profile banner and project sigils in the Circuit 炼器 look of lscythe.dev.
 
-Writes assets/banner-dark.svg and assets/banner-light.svg. GitHub shows
+Writes assets/banner-dark.svg, assets/banner-light.svg and one
+assets/sigils/<repo>.svg per entry in PROJECTS. GitHub shows
 README images through <img>, which can't fetch web fonts, so Tektur and
 Share Tech Mono are embedded as base64 (latin subsets, ~30 KB in total).
 
-    python3 assets/build_banner.py [path/to/website]
+    python3 assets/build_assets.py [path/to/website]
 
 The website repo (default ~/Documents/personal/research/website) must have
 its node_modules installed; the fonts come from @fontsource there. The
@@ -45,6 +46,10 @@ TRACES = [
 ]
 ACCENTS = ["M40 150 V250", "M1160 360 V420", "M700 80 H820"]
 PADS = [(556, 80), (900, 80), (820, 432), (1124, 300)]
+
+# Repos that get a sigil in the README, drawn from their names like a
+# project card's on the site.
+PROJECTS = ["navigo", "xuefu", "gradlens", "domain-probe"]
 
 U32 = 0xFFFFFFFF
 
@@ -108,7 +113,7 @@ def sigil_curve(name: str, n: int = 2200):
     return [tuple(v / peak for v in p) for p in pts]
 
 
-def sigil(name: str, cx: float, cy: float, size: float, yaw=0.0, pitch=0.45, bands=6) -> tuple[str, str, str]:
+def sigil(name: str, cx: float, cy: float, size: float, yaw=0.0, pitch=0.45, bands=6, n=2200) -> tuple[str, str, str]:
     """The still sigil, projected like makeSigil(): near side bright, far side dim.
 
     Returns (faint full trace + axes, accent trace split into depth bands)."""
@@ -121,7 +126,7 @@ def sigil(name: str, cx: float, cy: float, size: float, yaw=0.0, pitch=0.45, ban
         k = cam / (cam + z2)
         return cx + x1 * size * k, cy - y1 * size * k, z2
 
-    curve = [P(p) for p in sigil_curve(name)]
+    curve = [P(p) for p in sigil_curve(name, n)]
     axes = []
     for a, b in [((-1.1, 0, 0), (1.1, 0, 0)), ((0, -1.1, 0), (0, 1.1, 0)), ((0, 0, -1.1), (0, 0, 1.1))]:
         (ax, ay, _), (bx, by, _) = P(a), P(b)
@@ -235,6 +240,35 @@ def build(theme: str) -> str:
 """
 
 
+def build_sigil(name: str, size: int = 120) -> str:
+    """A project's sigil on a transparent square, in fewer segments than the
+    banner's, as the site does for small canvases. Violet and grey read on
+    both GitHub themes, so one file serves both. The yaw comes from the
+    name, so it is fixed like everything else."""
+    yaw = fnv(name) % 1000 / 1000 * math.tau
+    faint, lit, mask = sigil(name, size / 2, size / 2, size * 0.46, yaw=yaw, n=900)
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {size} {size}" width="{size}" height="{size}" role="img" aria-label="Sigil for {name}">
+<style>
+.ink path {{ fill: none; stroke: #8a8a8a; stroke-width: 1; }}
+.lit path {{ fill: none; stroke: #7c3dff; stroke-width: 1.5; stroke-linejoin: round; }}
+.pen {{ fill: none; stroke: #fff; stroke-width: 10; stroke-linejoin: round; }}
+@media (prefers-reduced-motion: no-preference) {{
+  .pen {{ stroke-dasharray: 1; animation: draw 4s cubic-bezier(.45,0,.2,1) .4s backwards; }}
+}}
+@keyframes draw {{ from {{ stroke-dashoffset: 1; }} }}
+</style>
+<defs><mask id="pen" maskUnits="userSpaceOnUse" x="0" y="0" width="{size}" height="{size}">{mask}</mask></defs>
+<g class="ink">{faint}</g>
+<g class="lit" mask="url(#pen)">{lit}</g>
+</svg>
+"""
+
+
 for name in THEMES:
     (HERE / f"banner-{name}.svg").write_text(build(name))
     print(f"wrote assets/banner-{name}.svg")
+
+(HERE / "sigils").mkdir(exist_ok=True)
+for name in PROJECTS:
+    (HERE / "sigils" / f"{name}.svg").write_text(build_sigil(name))
+    print(f"wrote assets/sigils/{name}.svg")
