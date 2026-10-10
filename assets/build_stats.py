@@ -9,10 +9,15 @@ it daily; locally it borrows the gh CLI's token.
 
 Only public data goes in: repos are queried with privacy: PUBLIC, and the
 contribution counts are the ones the public profile shows.
+
+The card is only rewritten when a number on it changes (a readout, the
+repo count or a language share), so the daily run doesn't commit just
+because the calendar moved on a day.
 """
 
 import json
 import os
+import re
 import subprocess
 import urllib.request
 from collections import Counter
@@ -101,6 +106,14 @@ def summarise(user: dict) -> dict:
     )
 
 
+def numbers(s: dict) -> str:
+    """Every number the card shows, as drawn."""
+    return json.dumps(
+        {"readouts": s["readouts"], "repos": s["repos"], "languages": [(n, f"{v * 100:.1f}") for n, v in s["languages"]]},
+        separators=(",", ":"),
+    )
+
+
 def build(theme: str, s: dict) -> str:
     t = THEMES[theme]
     x0 = 100
@@ -147,6 +160,7 @@ def build(theme: str, s: dict) -> str:
         )
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="title">
+<!-- numbers: {numbers(s)} -->
 <title id="title">GitHub activity for {LOGIN}: {", ".join(f"{v} {k.lower()}" for k, v in s["readouts"])} in the last year</title>
 <style>
 {font_faces()}
@@ -191,8 +205,17 @@ def build(theme: str, s: dict) -> str:
 """
 
 
-if __name__ == "__main__":
+def main() -> None:
     stats = summarise(fetch())
+    current = HERE / "stats-dark.svg"
+    drawn = re.search(r"<!-- numbers: (.*?) -->", current.read_text()) if current.exists() else None
+    if drawn and drawn.group(1) == numbers(stats):
+        print("numbers unchanged; keeping the card")
+        return
     for name in THEMES:
         (HERE / f"stats-{name}.svg").write_text(build(name, stats))
         print(f"wrote assets/stats-{name}.svg")
+
+
+if __name__ == "__main__":
+    main()
