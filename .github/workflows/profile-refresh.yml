@@ -38,4 +38,7 @@ jobs:
           max_post_count: 5
           date_format: "UTC:yyyy.mm.dd"
           template: "- `$date` · [$title]($url)$newline"
+          # Keeps the list off the marker lines; a line starting with the
+          # comment is an HTML block, and its post would not render.
+          tag_post_pre_newline: true
           commit_message: "Update latest writing from lscythe.dev"

@@ -67,7 +67,8 @@ The full record is at [lscythe.dev/experience](https://lscythe.dev/experience).
 
 ### `LOG.03` · Latest entries
 
-<!-- BLOG-POST-LIST:START -->- `2026.03.09` · [The Cure](https://lscythe.dev/blog/migrating-legacy-code/the-cure)
+<!-- BLOG-POST-LIST:START -->
+- `2026.03.09` · [The Cure](https://lscythe.dev/blog/migrating-legacy-code/the-cure)
 - `2026.03.07` · [Process Death – The Invisible Crash](https://lscythe.dev/blog/rebooting-android-basics/process-death)
 - `2026.03.06` · [Threading 101 – Mastering Dispatchers and Coroutines](https://lscythe.dev/blog/rebooting-android-basics/threading-101)
 - `2026.03.05` · [The Chaos](https://lscythe.dev/blog/migrating-legacy-code/the-chaos)
