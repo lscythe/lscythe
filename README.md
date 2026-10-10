@@ -15,6 +15,9 @@
 I'm Rendra, a software engineer building for mobile since 2019. Below is what I build in the open;
 what I learn along the way goes on [lscythe.dev](https://lscythe.dev).
 
+`STATUS` · **Open to work.** Looking for my next mobile role; reach me on
+[LinkedIn](https://www.linkedin.com/in/lscythe) or by [email](mailto:rendrati15c@gmail.com).
+
 ### `NOW` · Building
 
 <table>
