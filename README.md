@@ -25,8 +25,8 @@ what I learn along the way goes on [lscythe.dev](https://lscythe.dev).
     <td width="108"><a href="https://github.com/lscythe/jalvio-service"><img src="assets/sigils/jalvio.svg" width="96" alt="Sigil for jalvio"></a></td>
     <td>
       <a href="https://github.com/lscythe/jalvio-service"><b>Jalvio // mobility</b></a> &nbsp;<code>Go · GTFS</code><br>
-      An Indonesia-first mobility app, starting with TransJakarta. The self-hosted Go backend
-      is up first: it loads the GTFS feed, searches stops and routes, and tracks live buses.
+      An Indonesia-first mobility app. First up is its self-hosted Go backend for public transit
+      data: GTFS stop and route search, live bus positions over MQTT, and stop facilities.
     </td>
   </tr>
 </table>
