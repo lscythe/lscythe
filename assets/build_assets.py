@@ -27,7 +27,7 @@ PADS = [(556, 80), (900, 80), (820, 432), (1124, 300)]
 
 # Repos that get a sigil in the README, drawn from their names like a
 # project card's on the site.
-PROJECTS = ["navigo", "xuefu", "gradlens", "domain-probe"]
+PROJECTS = ["jalvio", "xuefu", "gradlens", "domain-probe"]
 
 # --- port of sigilCurve() in src/lib/sigil.ts --------------------------------
 

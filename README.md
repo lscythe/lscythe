@@ -22,11 +22,11 @@ what I learn along the way goes on [lscythe.dev](https://lscythe.dev).
 
 <table>
   <tr>
-    <td width="108"><a href="https://github.com/lscythe/navigo"><img src="assets/sigils/navigo.svg" width="96" alt="Sigil for navigo"></a></td>
+    <td width="108"><a href="https://github.com/lscythe/jalvio-service"><img src="assets/sigils/jalvio.svg" width="96" alt="Sigil for jalvio"></a></td>
     <td>
-      <a href="https://github.com/lscythe/navigo"><b>Navigo // transit</b></a> &nbsp;<code>Kotlin · Compose Multiplatform · MapLibre</code><br>
-      A public transport app for Android, desktop and iOS from one shared codebase.
-      Onboarding, the transit map and the adaptive shell are in; English and Indonesian.
+      <a href="https://github.com/lscythe/jalvio-service"><b>Jalvio // mobility</b></a> &nbsp;<code>Go · GTFS</code><br>
+      An Indonesia-first mobility app, starting with TransJakarta. The self-hosted Go backend
+      is up first: it loads the GTFS feed, searches stops and routes, and tracks live buses.
     </td>
   </tr>
 </table>
